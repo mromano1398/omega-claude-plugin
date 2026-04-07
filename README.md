@@ -3,7 +3,7 @@
 > **Universal lifecycle navigator for Claude Code** — from idea to production, for any project type, for everyone.
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-orange?logo=anthropic)](https://docs.anthropic.com/en/docs/claude-code/overview)
-[![Version](https://img.shields.io/badge/version-3.0.0-blue)](https://github.com/yourusername/omega/releases)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue)](https://github.com/mromano1398/omega-claude-plugin/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Skills](https://img.shields.io/badge/sub--skills-17-purple)](skills/)
 [![Language](https://img.shields.io/badge/language-Italiano-red)](README.md)
@@ -30,8 +30,8 @@
 ### Metodo 1 — Sessione singola (prova rapida)
 
 ```bash
-git clone https://github.com/yourusername/omega.git
-claude --plugin-dir ./omega
+git clone https://github.com/mromano1398/omega-claude-plugin.git
+claude --plugin-dir ./omega-claude-plugin
 ```
 
 ### Metodo 2 — Permanente (consigliato)
@@ -54,7 +54,7 @@ Riavvia Claude Code — il plugin è attivo in tutte le sessioni.
 ### Metodo 3 — Directory plugins globale
 
 ```bash
-git clone https://github.com/yourusername/omega.git ~/.claude/plugins/omega
+git clone https://github.com/mromano1398/omega-claude-plugin.git ~/.claude/plugins/omega
 ```
 
 ### Verifica installazione
