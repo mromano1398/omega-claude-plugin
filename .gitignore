@@ -1,0 +1,14 @@
+# File di sistema
+.DS_Store
+Thumbs.db
+
+# Secrets (non devono mai finire nel repo)
+*.env
+*.env.local
+*.env.production
+
+# I file di stato che omega crea nei PROGETTI (non nel plugin stesso)
+# Questi vengono creati nella cartella del progetto dell'utente, non qui
+# omega/state.md
+# omega/log.md
+# omega/plans/

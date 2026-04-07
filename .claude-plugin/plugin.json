@@ -1,0 +1,9 @@
+{
+  "name": "omega",
+  "description": "Lifecycle navigator universale — per qualsiasi tipo di progetto, per chiunque. Principianti (3 domande, profili preconfezionati) o sviluppatori esperti. Full Autopilot end-to-end con 4 gate obbligatori. 17 sub-skills: web, mobile iOS/Android (App Store/Play Store), AI/LLM, pagamenti Stripe, Python/FastAPI, CLI/Bot, multi-tenant, team/PR, sicurezza OWASP, migrazione legacy, testing, devops Docker+CI/CD, Supabase. Comando fetch-docs per docs ufficiali online.",
+  "version": "3.0.0",
+  "author": {
+    "name": "mirko"
+  },
+  "license": "MIT"
+}
