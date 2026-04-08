@@ -1,0 +1,18 @@
+{
+  "name": "mromano1398",
+  "owner": {
+    "name": "mirko"
+  },
+  "metadata": {
+    "description": "Plugins by mirko (mromano1398)",
+    "homepage": "https://github.com/mromano1398/omega-claude-plugin"
+  },
+  "plugins": [
+    {
+      "name": "omega",
+      "version": "3.0.0",
+      "source": ".",
+      "description": "Lifecycle navigator universale — per qualsiasi tipo di progetto. Full Autopilot end-to-end con 17 sub-skills."
+    }
+  ]
+}
