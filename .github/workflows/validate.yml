@@ -32,8 +32,8 @@ jobs:
           done
 
           # Verifica versione allineata
-          PLUGIN_VERSION=$(cat .claude-plugin/plugin.json | grep '"version"' | grep -oP '[\d.]+')
-          README_VERSION=$(grep 'version-' README.md | head -1 | grep -oP '[\d.]+' | head -1)
+          PLUGIN_VERSION=$(grep '"version"' .claude-plugin/plugin.json | grep -oP '\d+\.\d+\.\d+')
+          README_VERSION=$(grep 'img.shields.io/badge/version-' README.md | grep -oP '\d+\.\d+\.\d+' | head -1)
 
           if [ "$PLUGIN_VERSION" = "$README_VERSION" ]; then
             echo "✅ Versione allineata: $PLUGIN_VERSION"

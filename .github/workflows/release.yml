@@ -20,7 +20,7 @@ jobs:
       - name: Estrai versione da plugin.json
         id: version
         run: |
-          VERSION=$(cat .claude-plugin/plugin.json | grep '"version"' | head -1 | grep -oP '[\d.]+')
+          VERSION=$(grep '"version"' .claude-plugin/plugin.json | grep -oP '\d+\.\d+\.\d+')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Versione: $VERSION"
 
