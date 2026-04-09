@@ -1,22 +1,20 @@
 {
   "name": "mromano1398",
+  "description": "Claude Code plugins by Mirko Romano",
   "owner": {
-    "name": "Mirko Romano"
-  },
-  "metadata": {
-    "description": "Claude Code plugins by Mirko Romano",
-    "homepage": "https://github.com/mromano1398/omega-claude-plugin"
+    "name": "Mirko Romano",
+    "email": "mromano1398@gmail.com"
   },
   "plugins": [
     {
       "name": "omega",
+      "description": "Lifecycle navigator universale per qualsiasi tipo di progetto software.",
       "version": "4.2.1",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/mromano1398/omega-claude-plugin.git",
-        "sha": "b67b0f195e2f6c80c9af774f78bf08fcd581e2ad"
-      },
-      "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 26 sub-skills: business strategy, autopilot end-to-end, web/mobile/AI/pagamenti/Python/CLI. 4 tier di design. Sempre in italiano."
+      "source": "./",
+      "author": {
+        "name": "Mirko Romano",
+        "email": "mromano1398@gmail.com"
+      }
     }
   ]
 }

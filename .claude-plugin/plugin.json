@@ -1,9 +1,19 @@
 {
   "name": "omega",
-  "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 4 percorsi: Nuovo, Esistente, Riprendi, Reskin. 4 tier di design (Funzionale→Immersivo 3D). 26 sub-skills: product-strategy (business canvas, competitor research, feature suggestions, growth patterns), tier-system, blueprints, reskin, build-checker, audit-ui, context-updater, doc-generator, stitch, stack-advisor + web/mobile/AI/pagamenti/Python/CLI/team/sicurezza/devops. Full Autopilot con build-check automatico, audit UI, context update progressivo.",
+  "description": "Lifecycle navigator universale per qualsiasi tipo di progetto software.",
   "version": "4.2.1",
   "author": {
-    "name": "mirko"
+    "name": "Mirko Romano",
+    "email": "mromano1398@gmail.com"
   },
-  "license": "MIT"
+  "homepage": "https://github.com/mromano1398/omega-claude-plugin",
+  "repository": "https://github.com/mromano1398/omega-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "lifecycle",
+    "autopilot",
+    "scaffold",
+    "wizard",
+    "skills"
+  ]
 }
