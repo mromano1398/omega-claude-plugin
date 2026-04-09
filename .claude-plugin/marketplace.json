@@ -11,7 +11,11 @@
     {
       "name": "omega",
       "version": "4.2.1",
-      "source": ".",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/mromano1398/omega-claude-plugin.git",
+        "sha": "b67b0f195e2f6c80c9af774f78bf08fcd581e2ad"
+      },
       "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 26 sub-skills: business strategy, autopilot end-to-end, web/mobile/AI/pagamenti/Python/CLI. 4 tier di design. Sempre in italiano."
     }
   ]
