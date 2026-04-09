@@ -11,7 +11,6 @@
     {
       "name": "omega",
       "version": "4.2.1",
-      "source": ".",
       "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 26 sub-skills: business strategy, autopilot end-to-end, web/mobile/AI/pagamenti/Python/CLI. 4 tier di design. Sempre in italiano."
     }
   ]
