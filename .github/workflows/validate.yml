@@ -1,0 +1,48 @@
+name: Validate Plugin
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verifica struttura plugin
+        run: |
+          echo "=== Validazione plugin omega ==="
+
+          # File obbligatori
+          for f in ".claude-plugin/plugin.json" "hooks/hooks.json" "README.md" "CHANGELOG.md" "CONTRIBUTING.md"; do
+            if [ -f "$f" ]; then echo "✅ $f"; else echo "❌ MANCANTE: $f"; exit 1; fi
+          done
+
+          # Skill obbligatori
+          for skill in "omega" "omega-wizard" "omega-autopilot-engine" "omega-stack-advisor"; do
+            if [ -f "skills/$skill/SKILL.md" ]; then
+              echo "✅ skills/$skill/SKILL.md"
+            else
+              echo "❌ MANCANTE: skills/$skill/SKILL.md"
+              exit 1
+            fi
+          done
+
+          # Verifica versione allineata
+          PLUGIN_VERSION=$(cat .claude-plugin/plugin.json | grep '"version"' | grep -oP '[\d.]+')
+          README_VERSION=$(grep 'version-' README.md | head -1 | grep -oP '[\d.]+' | head -1)
+
+          if [ "$PLUGIN_VERSION" = "$README_VERSION" ]; then
+            echo "✅ Versione allineata: $PLUGIN_VERSION"
+          else
+            echo "❌ Versione non allineata: plugin.json=$PLUGIN_VERSION, README=$README_VERSION"
+            exit 1
+          fi
+
+          # Conta SKILL.md
+          SKILL_COUNT=$(find skills -name "SKILL.md" | wc -l)
+          echo "✅ $SKILL_COUNT SKILL.md trovati"
+          echo "=== Validazione completata ==="

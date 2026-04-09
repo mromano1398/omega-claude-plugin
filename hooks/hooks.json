@@ -5,18 +5,28 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c '\nif [ -f omega/state.md ]; then\n  echo \"=== OMEGA STATE ===\"\n  cat omega/state.md\n  echo \"\"\n  echo \"=== ULTIMI LOG ===\"\n  tail -30 omega/log.md 2>/dev/null || echo \"(nessun log)\"\n  echo \"\"\n\n  # Calcola score\n  SCORE=0\n\n  # Documentazione (20 pt): MVP=5, PRD=5, design-system=5, roadmap=5\n  [ -f omega/MVP.md ] && SCORE=$((SCORE+5))\n  [ -f omega/PRD.md ] && SCORE=$((SCORE+5))\n  [ -f omega/design-system.md ] && SCORE=$((SCORE+5))\n  [ -f omega/roadmap.md ] && SCORE=$((SCORE+5))\n\n  # Fasi (50 pt): state.md indica la fase corrente\n  FASE=$(grep -oP \"(?<=Fase: )\\d\" omega/state.md 2>/dev/null | head -1)\n  case \"$FASE\" in\n    1) SCORE=$((SCORE+10)) ;;\n    2) SCORE=$((SCORE+20)) ;;\n    3) SCORE=$((SCORE+30)) ;;\n    4) SCORE=$((SCORE+40)) ;;\n    5) SCORE=$((SCORE+50)) ;;\n  esac\n\n  # Sicurezza (15 pt): audit.md esiste e zero critici aperti\n  if [ -f omega/audit.md ]; then\n    CRITICI=$(grep -c \"⬜ aperto\" omega/audit.md 2>/dev/null || echo 1)\n    [ \"$CRITICI\" = \"0\" ] && SCORE=$((SCORE+15)) || SCORE=$((SCORE+5))\n  fi\n\n  # Testing (15 pt): piani test in omega/plans/ o test file esistenti\n  HAS_TESTS=0\n  [ -d src/tests ] && HAS_TESTS=1\n  [ -d e2e ] && HAS_TESTS=1\n  [ -d k6 ] && HAS_TESTS=1\n  [ -f vitest.config.ts ] && HAS_TESTS=1\n  [ \"$HAS_TESTS\" = \"1\" ] && SCORE=$((SCORE+15))\n\n  echo \"[OMEGA SCORE] $SCORE/100\"\nfi\n'"
+            "command": "bash -c '\nif [ -f omega/state.md ]; then\n  echo \"=== OMEGA STATE ===\"\n  cat omega/state.md\n  echo \"\"\n  echo \"=== ULTIMI LOG ===\"\n  tail -30 omega/log.md 2>/dev/null || echo \"(nessun log)\"\n  echo \"\"\n\n  # Calcola score\n  SCORE=0\n\n  # Documentazione (20 pt): MVP=5, PRD=5, design-system=5, roadmap=5\n  [ -f omega/MVP.md ] && SCORE=$((SCORE+5))\n  [ -f omega/PRD.md ] && SCORE=$((SCORE+5))\n  [ -f omega/design-system.md ] && SCORE=$((SCORE+5))\n  [ -f omega/roadmap.md ] && SCORE=$((SCORE+5))\n\n  # Fasi (50 pt): state.md indica la fase corrente\n  FASE=$(grep -oP \"(?<=Fase: )\\d+\" omega/state.md 2>/dev/null | head -1)\n  case \"$FASE\" in\n    1) SCORE=$((SCORE+10)) ;;\n    2) SCORE=$((SCORE+20)) ;;\n    3) SCORE=$((SCORE+30)) ;;\n    4) SCORE=$((SCORE+40)) ;;\n    5) SCORE=$((SCORE+50)) ;;\n  esac\n\n  # Sicurezza (15 pt): audit.md esiste e zero critici aperti\n  if [ -f omega/audit.md ]; then\n    CRITICI=$(grep -c \"⬜ aperto\" omega/audit.md 2>/dev/null || echo 1)\n    [ \"$CRITICI\" = \"0\" ] && SCORE=$((SCORE+15)) || SCORE=$((SCORE+5))\n  fi\n\n  # Testing (15 pt): piani test in omega/plans/ o test file esistenti\n  HAS_TESTS=0\n  [ -d src/tests ] && HAS_TESTS=1\n  [ -d e2e ] && HAS_TESTS=1\n  [ -d k6 ] && HAS_TESTS=1\n  [ -f vitest.config.ts ] && HAS_TESTS=1\n  [ \"$HAS_TESTS\" = \"1\" ] && SCORE=$((SCORE+15))\n\n  echo \"[OMEGA SCORE] $SCORE/100\"\n\n  if [ -f omega/design-system.md ]; then\n    echo \"\"\n    echo \"=== DESIGN SYSTEM (regole) ===\"\n    sed -n \"/## Palette/,/^## [^P]/p\" omega/design-system.md | head -20\n    echo \"\"\n    sed -n \"/## Regole assolute/,/^## /p\" omega/design-system.md | head -15\n  fi\n\n  # Segnala autopilot attivo\n  if [ -f omega/autopilot-state.md ]; then\n    AUTOPILOT_STATUS=$(grep \"Modalità:\" omega/autopilot-state.md | head -1)\n    AUTOPILOT_STEP=$(grep \"Step corrente:\" omega/autopilot-state.md | head -1)\n    if grep -q \"ACTIVE\\|IN_PROGRESS\" omega/autopilot-state.md 2>/dev/null; then\n      echo \"\"\n      echo \"=== AUTOPILOT ATTIVO ===\"\n      echo \"$AUTOPILOT_STATUS\"\n      echo \"$AUTOPILOT_STEP\"\n    fi\n  fi\n\n  # Segnala DESIGN.md\n  if [ -f DESIGN.md ]; then\n    echo \"\"\n    echo \"=== DESIGN.md TROVATO ===\"\n    echo \"Import design esterno disponibile — usa /omega:omega-stitch\"\n  fi\nfi\n'"
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Write|Edit|Bash",
         "hooks": [
           {
             "type": "command",
             "command": "bash -c 'FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r \".file_path // .path // empty\" 2>/dev/null); if [[ \"$FILE\" == omega/plans/*.md ]]; then UNCHECKED=$(grep -c \"^- \\[ \\]\" \"$FILE\" 2>/dev/null || echo 0); CHECKED=$(grep -c \"^- \\[x\\]\" \"$FILE\" 2>/dev/null || echo 0); if [ \"$UNCHECKED\" = \"0\" ] && [ \"$CHECKED\" -gt \"0\" ]; then echo \"[OMEGA] Tutti i checkbox completati in $FILE — ricorda di aggiornare: ## Stato: COMPLETE\"; fi; fi'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'if [ -f omega/state.md ]; then TIMESTAMP=$(date \"+%Y-%m-%d %H:%M\"); if ! grep -q \"SESSIONE INTERROTTA\" omega/state.md 2>/dev/null; then echo \"\" >> omega/state.md; echo \"## Sessione\" >> omega/state.md; echo \"Ultima sessione: $TIMESTAMP — chiusa\" >> omega/state.md; fi; fi'"
           }
         ]
       }

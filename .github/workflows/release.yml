@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Estrai versione da plugin.json
+        id: version
+        run: |
+          VERSION=$(cat .claude-plugin/plugin.json | grep '"version"' | head -1 | grep -oP '[\d.]+')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Versione: $VERSION"
+
+      - name: Valida struttura plugin
+        run: |
+          echo "Verifica file obbligatori..."
+          test -f .claude-plugin/plugin.json && echo "✅ plugin.json"
+          test -f hooks/hooks.json && echo "✅ hooks.json"
+          test -f skills/omega/SKILL.md && echo "✅ omega/SKILL.md"
+          test -f README.md && echo "✅ README.md"
+          test -f CHANGELOG.md && echo "✅ CHANGELOG.md"
+
+          SKILL_COUNT=$(find skills -name "SKILL.md" | wc -l)
+          echo "✅ $SKILL_COUNT SKILL.md trovati"
+
+      - name: Estrai note release dal CHANGELOG
+        id: changelog
+        run: |
+          # Estrae la sezione della versione corrente dal CHANGELOG.md
+          VERSION="${{ steps.version.outputs.version }}"
+          NOTES=$(awk "/## \[$VERSION\]/,/## \[/" CHANGELOG.md | head -n -1)
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Crea archivio release
+        run: |
+          zip -r omega-${{ steps.version.outputs.version }}.zip . \
+            --exclude ".git/*" \
+            --exclude "*.zip" \
+            --exclude ".github/*" \
+            --exclude "omega-test-report.md"
+
+      - name: Crea GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "omega v${{ steps.version.outputs.version }}"
+          body: ${{ steps.changelog.outputs.notes }}
+          files: omega-${{ steps.version.outputs.version }}.zip
+          draft: false
+          prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-rc') }}

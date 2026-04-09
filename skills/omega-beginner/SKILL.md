@@ -1,6 +1,6 @@
 ---
 name: omega-beginner
-description: Use when the user is not a developer or has no technical background. Triggered when the user uses vague language ("voglio fare un sito", "ho un'idea", "non so da dove partire"), answers "no" to developer question, or shows confusion at technical terms. Replaces the standard wizard with a simplified 3-question flow and pre-built profiles.
+description: Use when the user is not a developer or has no technical background. Triggered by vague language ("voglio fare un sito", "ho un'idea", "non so da dove partire"), confusion at technical terms, or explicit "non so programmare". Replaces the standard wizard with a 3-question flow and pre-built profiles.
 user-invocable: false
 ---
 
@@ -23,7 +23,7 @@ Quando rilevato, non procedere con il wizard standard — attiva questo flusso.
 
 ---
 
-## FLUSSO BEGINNER (3 domande, non 8)
+## FLUSSO BEGINNER (3 domande, NON 8)
 
 ### Presentazione iniziale
 
@@ -55,7 +55,7 @@ Chi userà [nome progetto]?
 
 [A] Solo io — è uno strumento personale
 [B] Io e il mio team (2-20 persone della mia azienda)
-[C] I miei clienti — persone esterne che si registrano e accedono
+[C] I miei clienti — persone esterne che si registrano
 [D] Chiunque — è pubblico, senza registrazione
 ```
 
@@ -77,66 +77,104 @@ Esempi:
 
 ---
 
-## PROFILI PRECONFEZIONATI — omega sceglie automaticamente
+## SCELTA TIER SEMPLIFICATA
 
-In base alle risposte, omega sceglie uno di questi profili:
+Dopo le 3 domande, omega propone automaticamente un tier in linguaggio semplice:
 
-### Profilo A — "Sito vetrina"
-**Quando:** sito pubblico, nessuna registrazione, presentare un'attività/prodotto
-**Stack scelto automaticamente:** Astro + Tailwind + Vercel
-**Costi hosting:** Gratis (Vercel free tier)
-**Tempo stimato:** 1-2 giorni
-**Include:** pagine (Home, Chi siamo, Servizi, Contatti), form contatto, ottimizzazione Google
+```
+Che aspetto vuoi per il tuo [sito/app]?
 
-### Profilo B — "App per la mia attività"
-**Quando:** gestionale interno, dipendenti o team piccolo, login richiesto
-**Stack scelto automaticamente:** Next.js + Supabase + Vercel
-**Costi hosting:** ~$0-25/mese
-**Tempo stimato:** 3-7 giorni
-**Include:** login sicuro, gestione utenti, dashboard, dati salvati nel cloud
+[SEMPLICE] — Pulito e chiaro. Funziona bene, zero fronzoli.
+             (es. strumenti gestionali, lavoro interno)
 
-### Profilo C — "Negozio online"
-**Quando:** vendita prodotti/servizi, pagamenti online, clienti esterni
-**Stack scelto automaticamente:** Next.js + Stripe + Supabase + Vercel
-**Costi hosting:** ~$0-25/mese + commissioni Stripe (1.5-2.9% + €0.25 per transazione)
-**Tempo stimato:** 5-10 giorni
-**Include:** catalogo prodotti, carrello, checkout sicuro, email conferma ordine
+[BELLO] — Curato e moderno. Piacevole da usare su telefono.
+          (es. app per clienti, vetrina professionale)
 
-### Profilo D — "App mobile"
-**Quando:** deve essere su iPhone/Android, usabile offline o con notifiche push
-**Stack scelto automaticamente:** Expo (React Native) + Supabase
-**Costi pubblicazione:** €99/anno (App Store Apple) + €25 una tantum (Google Play)
-**Tempo stimato:** 7-14 giorni
-**Include:** app iOS + Android dalla stesso codice, login, dati nel cloud
+[WOW] — Impatto visivo forte. Animazioni, stile cinematografico.
+        (es. portfolio, landing page premium)
 
-### Profilo E — "Tool solo per me"
-**Quando:** uso personale, nessun utente esterno, anche offline
-**Stack scelto automaticamente:** Next.js locale o script Python
-**Costi hosting:** Gratis (gira sul tuo computer) o ~$5/mese (Vercel)
-**Tempo stimato:** 1-3 giorni
-**Include:** interfaccia semplice, dati locali o nel cloud
+[3D] — Esperienza interattiva immersiva. Grafica tridimensionale.
+       (es. showcase di prodotti, esperienze creative)
+```
+
+**Mappa interna:** SEMPLICE→Tier1, BELLO→Tier2, WOW→Tier3, 3D→Tier4
 
 ---
 
-## COMUNICAZIONE — Glossario inline
+## STRATEGY.md — Generazione semplificata (NON chiama omega-product-strategy)
 
-Quando omega usa termini tecnici, li spiega sempre tra parentesi la prima volta:
+omega-beginner NON chiama omega-product-strategy (troppo tecnico per principianti).
+Dopo le 3 domande e la scelta tier, genera direttamente `omega/STRATEGY.md` con formato semplificato:
 
-| Termine tecnico | Come dirlo |
-|---|---|
-| Database | archivio dati (dove vengono salvate tutte le informazioni) |
-| Deploy | mettere online (pubblicare il sito/app) |
-| Backend | la parte "nascosta" che gestisce i dati |
-| Frontend | la parte visibile agli utenti |
-| API | un canale di comunicazione tra sistemi |
-| Autenticazione | il sistema di login |
-| Hosting | il server dove vive il sito online |
-| Repository | la cartella del progetto con tutto il codice |
-| Build | la preparazione del progetto per la messa online |
-| Migration | aggiornamento alla struttura dei dati |
-| Commit | salvataggio di una modifica al codice |
-| Branch | una copia del progetto per lavorare su una nuova funzione |
-| SSL/HTTPS | il lucchetto 🔒 di sicurezza nella barra del browser |
+```markdown
+# STRATEGY — [nome progetto]
+Generato da: omega-beginner
+
+## Obiettivo
+[risposta domanda 1 — cosa vuoi costruire]
+
+## Utenti
+[risposta domanda 2 — chi lo usa]
+
+## Requisiti Essenziali
+[risposta domanda 3 — cosa deve fare per forza]
+
+## Profilo Scelto
+[Profilo X — nome] · Stack: [stack] · Costo: [range]
+
+## Note
+Strategia business da approfondire in futuro con `[PS]`.
+```
+
+Questo garantisce che doc-generator abbia STRATEGY.md disponibile come input.
+
+---
+
+## PROFILI PRECONFEZIONATI — omega sceglie automaticamente
+
+In base alle risposte alle 3 domande, omega sceglie automaticamente uno di questi profili:
+
+### Profilo A — "Sito vetrina"
+**Quando:** pubblico, nessuna registrazione, presentare un'attività/prodotto
+**Stack:** Astro + Tailwind + Vercel
+**Blueprint:** `landing` (chiama `/omega:omega-blueprints` con tipo=landing)
+**Costi:** Gratis (Vercel free tier)
+**Include:** Home, Chi siamo, Servizi, Contatti, form email, ottimizzazione Google
+
+### Profilo B — "App per la mia attività"
+**Quando:** gestionale interno, team piccolo, login richiesto
+**Stack:** Next.js + Supabase + Vercel
+**Blueprint:** `gestionale` (chiama `/omega:omega-blueprints` con tipo=gestionale)
+**Costi:** €0-25/mese
+**Include:** login sicuro, gestione utenti, dashboard, dati nel cloud
+
+### Profilo C — "Negozio online"
+**Quando:** vendita prodotti/servizi, pagamenti online, clienti esterni
+**Stack:** Next.js + Stripe + Supabase + Vercel
+**Blueprint:** `e-commerce` (chiama `/omega:omega-blueprints` con tipo=e-commerce)
+**Costi:** €0-25/mese + commissioni Stripe (1.5-2.9% + €0.25 per transazione)
+**Include:** catalogo, carrello, checkout sicuro, email conferma ordine
+
+### Profilo D — "App mobile"
+**Quando:** deve essere su iPhone/Android, usabile ovunque con notifiche push
+**Stack:** Expo (React Native) + Supabase
+**Blueprint:** `mobile` (chiama `/omega:omega-blueprints` con tipo=mobile)
+**Costi:** €99/anno (App Store Apple) + €25 una tantum (Google Play)
+**Include:** app iOS + Android, login, dati nel cloud, notifiche push
+
+### Profilo E — "Tool solo per me"
+**Quando:** uso personale, nessun utente esterno
+**Stack:** Next.js locale o script Python
+**Blueprint:** `gestionale` (versione semplificata, singolo utente)
+**Costi:** Gratis (gira sul tuo computer) o ~€5/mese (Vercel)
+**Include:** interfaccia semplice, dati locali o nel cloud
+
+### Profilo F — "Portfolio / Showcase"
+**Quando:** portfolio professionale, showcase progetti, CV interattivo
+**Stack:** Astro o Next.js + animazioni (Framer Motion o GSAP) + Vercel
+**Blueprint:** `landing` (con sezioni portfolio/gallery)
+**Costi:** Gratis
+**Include:** gallery lavori, about, contatti, animazioni curate, ottimizzazione SEO
 
 ---
 
@@ -145,7 +183,7 @@ Quando omega usa termini tecnici, li spiega sempre tra parentesi la prima volta:
 In modalità beginner, i piani si mostrano così (NON con checkbox tecnici):
 
 ```
-📋 COSA FAREMO — [nome progetto]
+COSA FAREMO — [nome progetto]
 
 ① Preparazione (oggi)
    Creo la struttura base del progetto e la metto online su un
@@ -176,23 +214,44 @@ Vuoi procedere? Scrivi OK e inizio subito.
 Durante la costruzione, omega aggiorna così (NO jargon tecnico):
 
 ```
-✅ Ho creato la pagina iniziale — puoi già vederla qui: [link staging]
+Ho creato la pagina iniziale — puoi già vederla qui: [link staging]
 
-🔄 Sto lavorando su: il sistema di login per i tuoi utenti
+Sto lavorando su: il sistema di login per i tuoi utenti
 
-⏳ Prossimo passo: la pagina dove visualizzi i tuoi clienti
+Prossimo passo: la pagina dove visualizzi i tuoi clienti
 
-⚠️ Ho trovato un piccolo problema con il modulo di contatto
-   (il pulsante "Invia" non funzionava su telefono).
-   L'ho già corretto — tutto ok ora.
+Ho trovato un piccolo problema con il modulo di contatto
+(il pulsante "Invia" non funzionava su telefono).
+L'ho già corretto — tutto ok ora.
 ```
+
+---
+
+## GLOSSARIO INLINE
+
+Quando omega usa termini tecnici, li spiega sempre tra parentesi la prima volta:
+
+| Termine tecnico | Come dirlo |
+|---|---|
+| Database | archivio dati (dove vengono salvate tutte le informazioni) |
+| Deploy | mettere online (pubblicare il sito/app) |
+| Backend | la parte "nascosta" che gestisce i dati |
+| Frontend | la parte visibile agli utenti |
+| API | un canale di comunicazione tra sistemi |
+| Autenticazione | il sistema di login |
+| Hosting | il server dove vive il sito online |
+| Repository | la cartella del progetto con tutto il codice |
+| Build | la preparazione del progetto per la messa online |
+| Migration | aggiornamento alla struttura dei dati |
+| Commit | salvataggio di una modifica al codice |
+| Branch | una copia del progetto per lavorare su una nuova funzione |
+| SSL/HTTPS | il lucchetto di sicurezza nella barra del browser |
 
 ---
 
 ## DOMANDE FREQUENTI BEGINNER
 
 **"Quanto mi costerà?"**
-Risposta template:
 ```
 Per [tipo progetto], i costi tipici sono:
 - Hosting sito: [costo/mese] — spesso gratis all'inizio
@@ -221,6 +280,23 @@ I dati sono nel cloud europeo e cifrati.
 No. Il sito/app gira su server professionali in cloud — funziona
 24 ore su 24, 7 giorni su 7, anche quando spegni il computer.
 ```
+
+---
+
+## SCELTA STACK (interna, non mostrata al beginner)
+
+Dopo la scelta del profilo, omega chiama internamente `/omega:omega-stack-advisor` per raffinare lo stack del profilo in base a eventuali vincoli dichiarati alla Domanda 3.
+
+**Il BEGINNER NON vede il menu [ALT] né [CUSTOM]** di omega-stack-advisor — vede solo il profilo preconfezionato con linguaggio semplice (es. "uso Supabase per salvare i tuoi dati nel cloud").
+
+---
+
+## GENERAZIONE DOCUMENTI
+
+Dopo le 3 domande + scelta tier + scelta profilo:
+→ Chiama `/omega:omega-doc-generator` per generare `CLAUDE.md` + documenti `omega/`
+
+Il `CLAUDE.md` generato mantiene tutte le sezioni tecniche (serve a Claude Code per lavorare correttamente) ma usa linguaggio semplificato.
 
 ---
 

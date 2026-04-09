@@ -1,9 +1,10 @@
 ---
 name: omega
-description: Use when starting or resuming any software project — new or existing. Triggers on "omega", "/omega", "nuovo progetto", "riprendi progetto", "da dove parto", "sistemami il progetto", "parti in autopilot", "analizza il progetto". Orchestrates the full lifecycle from wizard to production deploy. Delegates to sub-skills for DevOps (/omega:omega-devops), Security (/omega:omega-security), Legacy migration (/omega:omega-legacy), Testing (/omega:omega-testing), and initial wizard (/omega:omega-wizard).
+description: Use when starting or resuming any software project — new project, existing project first time with omega, resuming work, or reskinning design. Universal lifecycle navigator that detects context automatically and calls the right sub-skills. Triggers on "omega", "/omega", "nuovo progetto", "riprendi progetto", "da dove parto", "sistemami il progetto", "parti in autopilot", "analizza il progetto", "cambia design", "reskin", "nuovo stile".
+user-invocable: true
 ---
 
-# /omega v4 — Lifecycle Navigator (Plugin)
+# /omega v4.0.0 — Lifecycle Navigator (Plugin)
 
 **Lingua:** Sempre italiano. Output incluso.
 **Principio:** Legge prima, fa domande, ottiene approvazione, poi agisce. Ogni azione loggata. Nessuna migration DB senza conferma esplicita.
@@ -12,8 +13,18 @@ description: Use when starting or resuming any software project — new or exist
 - `/omega:omega-wizard` — wizard iniziale, MODALITÀ A/B/C, generazione documenti
 - `/omega:omega-beginner` — modalità principiante, 3 domande, profili preconfezionati
 - `/omega:omega-autopilot-engine` — autopilot autonomo end-to-end, gate system
+- `/omega:omega-tier-system` — configurazione design per tier progetto
+- `/omega:omega-blueprints` — architettura per tipo progetto
+- `/omega:omega-reskin` — redesign / cambio stile grafico completo
+- `/omega:omega-build-checker` — verifica build, TypeScript errors, lint dopo modifiche
+- `/omega:omega-audit-ui` — audit UI/UX, coerenza design system, accessibilità
+- `/omega:omega-context-updater` — aggiornamento state.md, CLAUDE.md, roadmap dopo piano
+- `/omega:omega-doc-generator` — genera tutti i documenti omega da zero o da codice reale
+- `/omega:omega-product-strategy` — business canvas adattivo: obiettivi, competitor, feature suggestions, growth patterns, STRATEGY.md
+- `/omega:omega-stack-advisor` — scelta stack tecnologico con catalogo completo 18 categorie
+- `/omega:omega-stitch` — import design esterno opzionale (URL/screenshot/DESIGN.md/Google Stitch)
 - `/omega:omega-devops` — Docker, CI/CD, Nginx, monitoring, deploy VPS
-- `/omega:omega-security` — OWASP, GDPR, auth sicura, file upload, audit log
+- `/omega:omega-security` — OWASP avanzato, GDPR, auth sicura, file upload, audit log
 - `/omega:omega-legacy` — Strangler Fig, MySQL→PostgreSQL, session bridging
 - `/omega:omega-testing` — Unit, integration, E2E, load test, OpenAPI contract
 - `/omega:omega-team` — Team multi-developer, PR workflow, sprint planning
@@ -34,8 +45,8 @@ description: Use when starting or resuming any software project — new or exist
 Leggi in ordine **prima** di mostrare qualsiasi cosa. Non commentare durante la lettura.
 
 **Priorità 0:** `BLUEPRINT.md` nella root → esiste? → vai a **MODALITÀ C** (salta wizard)
-**Priorità 1:** `omega/state.md` + ultime 30 righe `omega/log.md`
-**Priorità 2:** `CLAUDE.md` / `AGENTS.md` — **rileggi all'inizio di ogni nuova fase, non solo ora**
+**Priorità 1:** `omega/state.md` + `omega/autopilot-state.md` (ultime 30 righe log attivo)
+**Priorità 2:** `CLAUDE.md` — **rileggi all'inizio di ogni nuova fase, non solo ora**
 **Priorità 3:** `omega/MVP.md`, `omega/PRD.md`, `omega/design-system.md`, `omega/roadmap.md`, `README.md`
 **Priorità 4:** `package.json` / `requirements.txt` / `go.mod`, struttura root (2 livelli), schema DB, `.env.example`
 
@@ -43,21 +54,27 @@ Leggi in ordine **prima** di mostrare qualsiasi cosa. Non commentare durante la 
 - Progetto nuovo / esistente
 - Tipo: `static` / `landing` / `blog` / `e-commerce` / `SaaS` / `gestionale` / `API` / `mobile`
 - Stack rilevato (pg diretto o ORM?)
-- Documenti omega presenti (MVP, PRD, design-system, roadmap, log)
+- Documenti omega presenti (STRATEGY, MVP, PRD, design-system, roadmap, log)
 - Piano attivo con step incompleti
+
+**Check CLAUDE.md:** se `omega/design-system.md` esiste ma `CLAUDE.md` non esiste o non contiene la sezione `## Design System` → avvisa l'utente e proponi di rigenerare CLAUDE.md dalla documentazione omega esistente.
 
 ---
 
-## STEP 1 — RILEVAMENTO MODALITÀ
+## STEP 1 — RILEVAMENTO PERCORSO
 
 ```
 RILEVAMENTO BEGINNER (prima di tutto):
-  L'utente dice "non so programmare" / usa solo linguaggio business?
+  L'utente usa solo linguaggio business / non tecnico?
     → Invoca /omega:omega-beginner (flusso semplificato 3 domande)
 
 RILEVAMENTO AUTOPILOT:
   omega/autopilot-state.md esiste con Autopilot: ACTIVE?
     → Invoca /omega:omega-autopilot-engine (riprendi senza mostrare menu)
+
+RILEVAMENTO RESKIN:
+  Utente dice "cambia design" / "reskin" / "nuovo stile" / "ridisegna"?
+    → Invoca /omega:omega-reskin
 
 RILEVAMENTO TIPO (da STEP 0):
   package.json con "bin" field → tipo CLI
@@ -66,17 +83,68 @@ RILEVAMENTO TIPO (da STEP 0):
   Nessuna app/ o pages/ + libreria → tipo Library/Package
 
 RILEVAMENTO MODALITÀ:
-  BLUEPRINT.md esiste?  → MODALITÀ C — chiama /omega:omega-wizard
-  Cartella vuota?       → MODALITÀ A — chiama /omega:omega-wizard
-  omega/ con documenti? → MODALITÀ B-RIPRENDI
-  Nessun omega/?        → MODALITÀ B-NUOVO — chiama /omega:omega-wizard
+  BLUEPRINT.md esiste?             → MODALITÀ C — /omega:omega-wizard
+  Cartella vuota?                  → MODALITÀ A (NUOVO) — /omega:omega-wizard
+  omega/ con documenti?            → MODALITÀ B-RIPRENDI
+  Nessun omega/, progetto esistente? → MODALITÀ B-NUOVO — /omega:omega-wizard
+
+[AP FULL]: → /omega:omega-autopilot-engine modalità FULL — nessun menu, esecuzione immediata fino al deploy
 ```
 
-Per MODALITÀ A, B-NUOVO, C → invoca `/omega:omega-wizard` passando il contesto raccolto.
-
-**[AP FULL]:** Invoca `/omega:omega-autopilot-engine` in modalità FULL — nessun menu mostrato, esecuzione immediata fino al deploy.
+**Corrispondenza percorsi omega ↔ omega-wizard:**
+| Percorso omega | Equivalente in omega-wizard | Condizione trigger |
+|---|---|---|
+| PERCORSO A — NUOVO | PROGETTO NUOVO | Cartella vuota / nessun `src/` significativo |
+| PERCORSO B — ESISTENTE | PROGETTO ESISTENTE | Codice presente, nessuna `omega/` |
+| PERCORSO C — RIPRENDI | RIPRENDI | `omega/state.md` esiste (con o senza documenti aggiuntivi) |
+| PERCORSO D — RESKIN | → omega-reskin diretto | Utente dice "reskin/cambia design" |
+| MODALITÀ C — BLUEPRINT | MODALITÀ C | `BLUEPRINT.md` esiste nella root |
 
 **Tipi progetto supportati:** Web App · SaaS · Gestionale · E-commerce · Landing · API REST · Mobile (iOS/Android) · CLI · Bot (Discord/Telegram) · Script Python · Data Pipeline · Libreria/SDK · Plugin
+
+---
+
+## PERCORSO A — NUOVO PROGETTO
+
+```
+Step 1: /omega:omega-wizard           (raccoglie descrizione, rileva tipo)
+Step 1.5: /omega:omega-product-strategy (business canvas: obiettivi, competitor, feature, STRATEGY.md)
+Step 2: /omega:omega-tier-system      (configurazione design per tier scelto)
+Step 3: /omega:omega-stack-advisor    (raccomandazione stack per tipo progetto)
+Step 4: /omega:omega-blueprints       (architettura per tipo progetto)
+Step 5: /omega:omega-doc-generator    (genera tutti i documenti omega incluso STRATEGY.md)
+Step 6: → COSTRUZIONE (Fasi 1-5)
+```
+
+---
+
+## PERCORSO B — PROGETTO ESISTENTE (prima volta con omega)
+
+```
+Step 1: Analisi silenziosa codice esistente (struttura, stack, pattern rilevati)
+Step 2: Presenta riepilogo: cosa vede, cosa manca, criticità
+Step 3: /omega:omega-wizard        (modalità analisi — integra ciò che esiste)
+Step 4: /omega:omega-doc-generator (genera documenti da codice reale, non da zero)
+Step 5: → COSTRUZIONE o → /omega:omega-reskin (se design da rifare)
+```
+
+---
+
+## PERCORSO C — RIPRENDI LAVORO
+
+```
+Step 1: Legge omega/state.md + log attivo (ultime 30 righe)
+Step 2: Mostra stato corrente: fase, piano attivo, step rimasti
+Step 3: Continua da piano attivo → oppure mostra MENU PRINCIPALE
+```
+
+---
+
+## PERCORSO D — RESKIN
+
+```
+→ Invoca direttamente /omega:omega-reskin
+```
 
 ---
 
@@ -89,12 +157,12 @@ Per MODALITÀ A, B-NUOVO, C → invoca `/omega:omega-wizard` passando il contest
 ║  Stack: [stack]  ·  DB: [pg/prisma/supabase]  ·  Fase: [N]  ║
 ║  Piano attivo: [nome / nessuno]                              ║
 ╠══════════════════════════════════════════════════════════════╣
-║  ⚡ PROSSIMO PASSO: [azione raccomandata]                    ║
+║  PROSSIMO PASSO: [azione raccomandata]                       ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  ① FONDAMENTA     [✅/🔄/⬜/🔒]                             ║
 ║     [A] Scaffolding + ambiente  [B] Design system            ║
 ║     [C] DB setup + schema       [D] Auth                     ║
-║     [E] Layout + componenti base                             ║
+║     [E] Layout + componenti base ▼ (vedi dettaglio sotto)   ║
 ║                                                              ║
 ║  ② COSTRUZIONE    [✅/🔄/⬜/🔒]                             ║
 ║     [1] Feature da PRD          [2] Audit codice             ║
@@ -113,29 +181,115 @@ Per MODALITÀ A, B-NUOVO, C → invoca `/omega:omega-wizard` passando il contest
 ║  ⑤ OPERAZIONI     [✅/🔄/⬜/🔒] — richiede ④               ║
 ║     [12] Monitoring    [13] Feature discovery    [14] Iter.  ║
 ║                                                              ║
-║  [T]  Testing → /omega:omega-testing                         ║
-║  [G]  Git workflow      [FP] Aggiungi feature al PRD         ║
-║  [DS] Design system     [DB] Gestione DB                     ║
-║  [AP] Autopilot         [AP FULL] Full autopilot end-to-end  ║
-║  [SEC] Sicurezza → /omega:omega-security                     ║
-║  [LEG] Migrazione legacy → /omega:omega-legacy               ║
-║  [TEAM] Team & PR → /omega:omega-team                        ║
-║  [PM]  Vista business → /omega:omega-pm                      ║
-║  [BEG] Modalità principiante → /omega:omega-beginner         ║
-║  [MOB] Mobile iOS/Android → /omega:omega-mobile              ║
-║  [AI]  AI/LLM features → /omega:omega-ai                     ║
-║  [PAY] Pagamenti Stripe → /omega:omega-payments              ║
-║  [PY]  Python/FastAPI → /omega:omega-python                  ║
-║  [CLI] CLI/Bot/Script → /omega:omega-cli                     ║
-║  [SUPA] Supabase → /omega:omega-supabase                     ║
-║  [MT]  Multi-tenant SaaS → /omega:omega-multitenant          ║
-║  [DOCS] /omega:fetch-docs [framework] — docs ufficiali       ║
-║  [?]  Descrivi liberamente                                   ║
+║  [PS]    Business canvas → /omega:omega-product-strategy      ║
+║  [T]     Testing → /omega:omega-testing                      ║
+║  [G]     Git workflow      [FP] Aggiungi feature al PRD      ║
+║  [DS]    Design system     [DB] Gestione DB                  ║
+║  [AP]    Autopilot         [AP FULL] Full autopilot          ║
+║  [SEC]   Sicurezza avanzata → /omega:omega-security          ║
+║  [LEG]   Migrazione legacy → /omega:omega-legacy             ║
+║  [TEAM]  Team & PR → /omega:omega-team                       ║
+║  [PM]    Vista business → /omega:omega-pm                    ║
+║  [BEG]   Modalità principiante → /omega:omega-beginner       ║
+║  [MOB]   Mobile iOS/Android → /omega:omega-mobile            ║
+║  [AI]    AI/LLM features → /omega:omega-ai                   ║
+║  [PAY]   Pagamenti Stripe → /omega:omega-payments            ║
+║  [PY]    Python/FastAPI → /omega:omega-python                ║
+║  [CLI]   CLI/Bot/Script → /omega:omega-cli                   ║
+║  [SUPA]  Supabase → /omega:omega-supabase                    ║
+║  [MT]    Multi-tenant SaaS → /omega:omega-multitenant        ║
+║  [DOCS]  fetch-docs [framework] — docs ufficiali             ║
+║  [STACK]   Stack advisor → /omega:omega-stack-advisor        ║
+║  [RESKIN]  Redesign UI → /omega:omega-reskin                 ║
+║  [AUDIT-UI] Audit UI/UX → /omega:omega-audit-ui              ║
+║  [CHECK]   Build checker → /omega:omega-build-checker        ║
+║  [PERF]    references/performance.md                         ║
+║  [SEO]     references/seo.md                                 ║
+║  [A11Y]    references/accessibility.md                       ║
+║  [?]     Descrivi liberamente                                ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
+**[E] Layout + componenti base — DETTAGLIO:**
+
+> Questo step si applica a progetti **React/Next.js**. Per API-only → Middleware stack. Per Python → FastAPI deps. Per CLI → Commander setup. Per Mobile → Expo navigation. Consulta il sub-skill specifico.
+
+Se lo stack include shadcn/ui → esegui `npx shadcn@latest init` + installa: `button input card badge table dialog toast form`
+
+Se NON usa shadcn → genera manualmente `src/components/ui/` con:
+- `Button.tsx` (varianti: primary, secondary, danger, ghost + sizes sm/md/lg)
+- `Input.tsx` (con label, error state, disabled)
+- `Card.tsx` (con CardHeader, CardContent, CardFooter)
+- `Badge.tsx` (varianti: success, warning, danger, info, neutral)
+- `DataTable.tsx` (sorting, pagination, empty state)
+- `Modal.tsx` (con overlay, close, sizes)
+- `Toast.tsx` (success, error, info)
+
+Tutti i componenti DEVONO usare i token dal `omega/design-system.md`.
+Dopo la generazione, aggiungi in `CLAUDE.md`: "Componenti UI disponibili in `@/components/ui/`".
+Poi genera la pagina modello: `src/app/(dashboard)/esempio/page.tsx` (vedi omega-doc-generator per i template di pagina).
+
 **Tipo API:** FONDAMENTA [B] Design system → N/A · [E] Layout → Middleware stack.
 Consulta `/omega:omega-devops` per deploy, `/omega:omega-security` per audit, `/omega:omega-testing` per test.
+
+---
+
+## COSTRUZIONE — FASI 1-5
+
+### AUTOMAZIONI OBBLIGATORIE DURANTE TUTTA LA COSTRUZIONE
+
+- `/omega:omega-build-checker` → dopo ogni **3 file modificati**
+  OPPURE **immediatamente** (indipendente dal contatore) se modificato uno di questi file critici:
+  - `schema.prisma` / qualsiasi file `*.sql` / file di migration
+  - `middleware.ts` / `middleware.js`
+  - `next.config.ts` / `next.config.js` / `vite.config.ts`
+  - `package.json` (quando si aggiungono dipendenze)
+  - `tsconfig.json` / `tsconfig.*.json`
+  - `auth.ts` / `auth.config.ts` (configurazione autenticazione)
+  - `.env.example` (quando si aggiungono nuove variabili richieste)
+- `/omega:omega-build-checker` → alla **fine di ogni piano**
+- `/omega:omega-context-updater` → dopo ogni piano con `## Stato: COMPLETE`
+
+### FASE 1 — FONDAMENTA (sicurezza inclusa di default)
+
+Invoca `/omega:omega-blueprints` (struttura specifica per tipo — se già chiamato nel
+wizard Step 5, usa direttamente il blueprint generato senza reinvocare)
+Poi `/omega:omega-build-checker` a fine fase.
+
+**Sicurezza Fase 1 — AUTOMATICA, NON OPT-IN** (inclusa sempre, per ogni progetto):
+
+| Elemento | Implementazione |
+|---|---|
+| Security headers | `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin` |
+| HTTPS forzato | Redirect 301 HTTP → HTTPS in produzione |
+| .env in .gitignore | Verificato e aggiunto all'inizio del progetto |
+| Rate limiting auth | 5 tentativi / 15 min per IP (upstash/redis o middleware) |
+| Validazione Zod | Su OGNI input server-side — nessuna eccezione |
+| IDOR protection | `WHERE user_id = $session.user.id` su ogni query che legge dati utente |
+
+→ Pattern di implementazione completi in `omega/references/security-defaults.md`
+
+Per sicurezza avanzata pre-lancio → `[SEC]` invoca `/omega:omega-security` (audit OWASP completo).
+
+### FASE 2 — COSTRUZIONE FEATURE
+
+Segui PRD.md step by step. Ogni 3 file → `/omega:omega-build-checker`.
+Fine fase → `/omega:omega-audit-ui` (obbligatorio).
+
+### FASE 3 — QUALITÀ E INTEGRAZIONE
+
+Invoca `/omega:omega-security` (audit OWASP avanzato).
+Invoca `/omega:omega-testing` (unit + integration + E2E).
+Se web-facing → verifica `references/seo.md` + `references/accessibility.md`.
+
+### FASE 4 — DEPLOY
+
+Invoca `/omega:omega-devops`.
+
+### FASE 5 — OPERAZIONI
+
+Monitoring, iterazione, feature discovery (`[13]`).
+Nuove feature → `[FP]` → PRD aggiornato → nuovo piano.
 
 ---
 
@@ -169,8 +323,9 @@ Basato su: [MVP.md / PRD.md / richiesta]
 **Regole esecuzione — OBBLIGATORIE:**
 - Aggiorna `[ ]` → `[x]` **prima** di passare allo step successivo
 - Logga in `omega/log.md` dopo ogni step
-- Rileggi `CLAUDE.md`/`AGENTS.md` all'inizio di ogni nuova fase
+- Rileggi `CLAUDE.md` all'inizio di ogni nuova fase
 - Quando COMPLETO: `## Stato: IN_PROGRESS` → `## Stato: COMPLETE` · verifica tutti `[x]` · aggiorna state.md + README
+- Dopo `## Stato: COMPLETE` → invoca `/omega:omega-context-updater`
 
 ---
 
@@ -205,7 +360,7 @@ File: [path o "nessuno"] · Step: [N/M] · Stato: [IN_PROGRESS/WAITING_USER/COMP
 Schema: [nome] · Migrazione: [completata/in corso/da fare]
 
 ## Documenti omega
-- [x] MVP  - [x] PRD  - [x] design-system  - [x] roadmap  - [x] log
+- [x] STRATEGY  - [x] MVP  - [x] PRD  - [x] design-system  - [x] roadmap  - [x] log  - [x] CLAUDE.md
 
 ## In attesa utente
 - [decisioni pendenti]
@@ -229,6 +384,12 @@ Genera `omega/design-system.md`:
 - Regole assolute (cosa non fare mai)
 
 **Modifica design system:** mostra impatto (N file) → conferma → crea piano propagazione → esegui con checkbox.
+
+**Propagazione obbligatoria dopo ogni modifica [DS]:**
+1. Aggiorna `omega/design-system.md` (fonte di verità)
+2. Aggiorna la sezione `## Design System` in `CLAUDE.md` (sintesi per contesto automatico)
+3. Se `tailwind.config` esiste → verifica coerenza colori
+4. Logga in `omega/log.md`: `DS | Aggiornato design-system.md + CLAUDE.md | [cosa cambiato]`
 
 ---
 
@@ -263,7 +424,7 @@ export async function withTransaction<T>(fn: (client: PoolClient) => Promise<T>)
 
 ### Scalabilità — tabelle append-only
 
-⚠️ **Mai calcolare aggregazioni live su milioni di righe.** Usa summary table + trigger:
+Mai calcolare aggregazioni live su milioni di righe. Usa summary table + trigger:
 
 ```sql
 CREATE TABLE giacenze_correnti (
@@ -406,9 +567,12 @@ main (prod, protetto) → feature/[nome] · fix/[nome] · release/v[X.Y]
 2. Mostra piano, chiedi approvazione
 3. Esegui con checkbox step per step
 4. **Stop obbligatorio:** DB migration · breaking change · primo deploy prod
-5. Fine: state.md + log + README
+5. Fine: `/omega:omega-context-updater` → state.md + log + README aggiornati
+6. `/omega:omega-build-checker` eseguito ogni 3 file e a fine piano (automatico)
 
 **FAST MODE [AP FAST]:** Stop ridotti a 2 (DB migration + deploy prod). Domande in batch a fine piano. Non saltabile: OWASP, build verde, giacenze negative.
+
+**FULL MODE [AP FULL]:** Invoca `/omega:omega-autopilot-engine` modalità FULL — esecuzione automatica end-to-end fino al deploy.
 
 ---
 
@@ -461,6 +625,42 @@ main (prod, protetto) → feature/[nome] · fix/[nome] · release/v[X.Y]
 - [ ] Sitemap.xml · Open Graph su tutte le pagine
 - [ ] Form testata con email reale
 - [ ] GDPR cookie banner se analytics attivi
+
+---
+
+## FEATURE DISCOVERY — [13]
+
+```
+QUICK WINS (alto impatto, poco sforzo)
+FEATURE STRATEGICHE (medio termine)
+VISIONE FUTURA (lungo termine)
+```
+Feature accettate → `omega/roadmap.md` backlog.
+
+---
+
+## OTTIMIZZAZIONE TOKEN
+
+1. `state.md` prima di tutto — anchor di sessione
+2. Log: solo ultime 30 righe
+3. `CLAUDE.md`: rileggi ogni nuova fase
+4. File grandi: leggi solo la sezione necessaria
+5. Piano: fonte di verità — aggiorna checkbox, non tenere in mente
+6. Design system: carica una volta sola
+
+---
+
+## REFERENCES
+
+Guide di riferimento operative (non riscrivere qui — consulta il file):
+
+| Shortcut | File | Contenuto |
+|---|---|---|
+| `[PERF]` | `skills/omega/references/performance.md` | Next.js optimization, bundle, caching, DB, Lighthouse |
+| `[A11Y]` | `skills/omega/references/accessibility.md` | WCAG 2.1 AA checklist operativa |
+| `[SEO]` | `skills/omega/references/seo.md` | SEO per tipo progetto, Core Web Vitals |
+| `[API]` | `skills/omega/references/api-patterns.md` | Formato risposta, paginazione, rate limiting, error codes |
+| `[SEC-DEF]` | `skills/omega/references/security-defaults.md` | Sicurezza automatica Fase 1 per tipo progetto |
 
 ---
 
@@ -535,28 +735,6 @@ main (prod, protetto) → feature/[nome] · fix/[nome] · release/v[X.Y]
 
 ---
 
-## FEATURE DISCOVERY — [13]
-
-```
-🟢 QUICK WINS (alto impatto, poco sforzo)
-🔵 FEATURE STRATEGICHE (medio termine)
-🟣 VISIONE FUTURA (lungo termine)
-```
-Feature accettate → `omega/roadmap.md` backlog.
-
----
-
-## OTTIMIZZAZIONE TOKEN
-
-1. `state.md` prima di tutto — anchor di sessione
-2. Log: solo ultime 30 righe
-3. `CLAUDE.md`/`AGENTS.md`: rileggi ogni nuova fase
-4. File grandi: leggi solo la sezione necessaria
-5. Piano: fonte di verità — aggiorna checkbox, non tenere in mente
-6. Design system: carica una volta sola
-
----
-
 ## REGOLE ASSOLUTE
 
 - **Mai modificare il DB originale** — solo SELECT per analisi
@@ -564,10 +742,11 @@ Feature accettate → `omega/roadmap.md` backlog.
 - **Mai committare** senza richiesta esplicita
 - **Mai pushare** in nessun caso automatico
 - **Mai leggere `.env`** reale — solo `.env.example`
-- **Rileggi CLAUDE.md/AGENTS.md all'inizio di ogni nuova fase**
+- **Rileggi CLAUDE.md all'inizio di ogni nuova fase**
 - **Aggiorna checkbox `[ ]` → `[x]` PRIMA di passare allo step successivo**
 - **Piano COMPLETO → aggiorna `## Stato: COMPLETE`** nel file piano
 - **Rispetta `omega/design-system.md`** — deviare = aggiornarlo e propagare
+- **Ogni volta che `omega/design-system.md` viene modificato → aggiorna anche la sezione Design System in `CLAUDE.md`**
 - **Mai iniziare fase bloccata** senza completare le precedenti
 - **Mai inventare feature** non nel PRD — usa [FP] per aggiungerle
 - **Ferma su checkpoint:** DB migration · breaking change · primo deploy prod
@@ -576,3 +755,7 @@ Feature accettate → `omega/roadmap.md` backlog.
 - **Staging ≠ produzione** — variabili separate, dati separati
 - **Tipo API: salta design system** — adatta FONDAMENTA alla versione API
 - **Prima di scrivere codice per un framework: verifica doc ufficiale** nella sezione DOCUMENTAZIONE
+- **omega-build-checker dopo ogni 3 file modificati** — obbligatorio, non saltabile
+- **omega-context-updater dopo ogni piano COMPLETE** — obbligatorio, non saltabile
+- **omega-audit-ui obbligatorio fine Fase 2** — non saltabile
+- **Sicurezza Fase 1 non è opt-in** — sempre inclusa in ogni progetto, ogni tipo

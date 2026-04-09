@@ -1,18 +1,29 @@
 {
-  "name": "mromano1398",
-  "owner": {
-    "name": "mirko"
+  "name": "omega",
+  "display_name": "omega — Lifecycle Navigator",
+  "description": "Guida dall'idea al deploy per qualsiasi progetto. Wizard adattivo, autopilot con 6 gate di sicurezza, 25 sub-skill specializzati. Gestisce: web app, SaaS, gestionali, e-commerce, mobile, API, CLI, Python/AI. 4 tier di design. Sempre in italiano.",
+  "version": "4.1.0",
+  "author": {
+    "name": "Mirko Romano",
+    "url": "https://github.com/mromano1398"
   },
-  "metadata": {
-    "description": "Plugins by mirko (mromano1398)",
-    "homepage": "https://github.com/mromano1398/omega-claude-plugin"
-  },
-  "plugins": [
-    {
-      "name": "omega",
-      "version": "3.0.0",
-      "source": ".",
-      "description": "Lifecycle navigator universale — per qualsiasi tipo di progetto. Full Autopilot end-to-end con 17 sub-skills."
-    }
-  ]
+  "repository": "https://github.com/mromano1398/omega-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "lifecycle", "wizard", "autopilot", "saas", "gestionale",
+    "nextjs", "typescript", "deployment", "italiano", "fullstack"
+  ],
+  "categories": ["productivity", "development", "scaffolding"],
+  "skills": [
+    "omega", "omega-wizard", "omega-beginner", "omega-autopilot-engine",
+    "omega-tier-system", "omega-blueprints", "omega-reskin",
+    "omega-build-checker", "omega-audit-ui", "omega-context-updater",
+    "omega-doc-generator", "omega-stitch", "omega-stack-advisor",
+    "omega-debug", "omega-devops", "omega-security", "omega-legacy",
+    "omega-testing", "omega-team", "omega-pm", "omega-supabase",
+    "omega-multitenant", "omega-mobile", "omega-ai", "omega-payments",
+    "omega-python", "omega-cli"
+  ],
+  "min_claude_code_version": "1.0.0",
+  "tags": ["italiano", "fullstack", "saas", "gestionale", "autopilot"]
 }

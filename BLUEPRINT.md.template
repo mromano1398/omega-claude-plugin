@@ -1,0 +1,111 @@
+# BLUEPRINT — [NOME PROGETTO]
+
+> Istruzioni: compila questo file con i dettagli del tuo progetto.
+> Salvalo come `BLUEPRINT.md` nella root del progetto prima di avviare omega.
+> omega leggerà questo file e genererà tutti i documenti senza farti domande.
+> Elimina le sezioni che non si applicano al tuo progetto.
+> Le sezioni marcate con [OBBLIGATORIO] devono essere sempre presenti.
+
+---
+
+## Progetto [OBBLIGATORIO]
+
+**Nome:** [nome del progetto]
+**Tipo:** [gestionale / SaaS B2C / SaaS B2B / e-commerce / landing / portfolio / API / mobile / CLI / bot / Python/AI]
+**Descrizione:** [2-3 frasi: cosa fa, per chi, perché]
+
+**Utenti target:**
+- [chi usa il sistema — es. "operatori interni", "clienti registrati", "visitatori pubblici"]
+
+**Modello di business:** [gratis / freemium / abbonamento / e-commerce / uso interno / non definito]
+
+---
+
+## Stack [OBBLIGATORIO]
+
+> Lascia vuoto ciò che vuoi che omega decida. Specifica solo ciò che è già deciso.
+
+**Frontend:** [es. Next.js App Router / Astro / lascia decidere a omega]
+**Backend:** [es. incluso nel frontend / Node.js+Hono / FastAPI / lascia decidere]
+**Database:** [es. PostgreSQL / Supabase / SQLite / lascia decidere]
+**ORM/Query:** [es. Prisma / pg diretto / Drizzle / lascia decidere]
+**Auth:** [es. Auth.js v5 / Supabase Auth / Clerk / lascia decidere]
+**Deploy:** [es. Vercel / Railway / VPS / lascia decidere]
+**Email:** [es. Resend / nessuna / lascia decidere]
+**Pagamenti:** [es. Stripe / nessuno / lascia decidere]
+
+---
+
+## Design [OBBLIGATORIO]
+
+**Tier:** [1 = Funzionale / 2 = Professionale / 3 = Cinematic / 4 = Immersivo / lascia decidere]
+
+**Palette colori:**
+- Primary: [#hex o "lascia decidere"]
+- Background: [#hex o "lascia decidere"]
+- Accent: [#hex o "lascia decidere"]
+
+**Font:** [es. Inter / Playfair Display / "lascia decidere"]
+**Stile generale:** [es. minimal / bold / corporate / playful / dark / light]
+
+---
+
+## Database — Schema
+
+> Descrivi le tabelle principali. Non serve SQL preciso — omega lo genera.
+> Ometti questa sezione se è la prima volta e non hai dati esistenti.
+
+**[Nome tabella 1]**
+- campo1: [tipo] — [descrizione breve]
+- campo2: [tipo]
+- relazioni: [es. "appartiene a utente", "ha molti ordini"]
+
+**[Nome tabella 2]**
+- ...
+
+---
+
+## Moduli / Funzionalità
+
+> Lista delle funzionalità da costruire. Specifica la priorità MVP vs post-MVP.
+
+### MVP (deve esserci al lancio)
+- [ ] [funzionalità 1] — [breve descrizione]
+- [ ] [funzionalità 2]
+- [ ] [funzionalità 3]
+
+### Post-MVP (iterazioni future)
+- [ ] [funzionalità futura 1]
+- [ ] [funzionalità futura 2]
+
+---
+
+## Vincoli e requisiti speciali
+
+> Specifica solo ciò che è non-negoziabile o non deducibile dal contesto.
+
+- **Performance:** [es. "deve reggere 1000 utenti simultanei", "nessun requisito specifico"]
+- **GDPR/Compliance:** [es. "dati solo in UE", "nessun requisito specifico"]
+- **Integrazioni obbligatorie:** [es. "deve integrarsi con SAP", "Webhook verso Zapier"]
+- **Accessibilità:** [es. "WCAG AA obbligatorio", "nessun requisito specifico"]
+- **Multi-lingua:** [es. "italiano + inglese", "solo italiano"]
+- **Mobile:** [es. "responsive obbligatorio", "app nativa non richiesta"]
+- **Offline:** [es. "deve funzionare senza internet", "non richiesto"]
+
+---
+
+## Team e processo
+
+> Ometti se lavori da solo.
+
+**Team size:** [N sviluppatori]
+**Workflow:** [es. "feature branch + PR review", "trunk-based", "non definito"]
+**CI/CD:** [es. "GitHub Actions", "non ancora", "lascia decidere a omega"]
+
+---
+
+## Note aggiuntive
+
+> Qualsiasi altra informazione rilevante che omega dovrebbe sapere prima di iniziare.
+
+[testo libero]

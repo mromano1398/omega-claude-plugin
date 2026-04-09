@@ -1,7 +1,7 @@
 {
   "name": "omega",
-  "description": "Lifecycle navigator universale — per qualsiasi tipo di progetto, per chiunque. Principianti (3 domande, profili preconfezionati) o sviluppatori esperti. Full Autopilot end-to-end con 4 gate obbligatori. 17 sub-skills: web, mobile iOS/Android (App Store/Play Store), AI/LLM, pagamenti Stripe, Python/FastAPI, CLI/Bot, multi-tenant, team/PR, sicurezza OWASP, migrazione legacy, testing, devops Docker+CI/CD, Supabase. Comando fetch-docs per docs ufficiali online.",
-  "version": "3.0.0",
+  "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 4 percorsi: Nuovo, Esistente, Riprendi, Reskin. 4 tier di design (Funzionale→Immersivo 3D). 26 sub-skills: product-strategy (business canvas, competitor research, feature suggestions, growth patterns), tier-system, blueprints, reskin, build-checker, audit-ui, context-updater, doc-generator, stitch, stack-advisor + web/mobile/AI/pagamenti/Python/CLI/team/sicurezza/devops. Full Autopilot con build-check automatico, audit UI, context update progressivo.",
+  "version": "4.2.1",
   "author": {
     "name": "mirko"
   },
