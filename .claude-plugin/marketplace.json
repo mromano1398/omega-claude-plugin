@@ -1,29 +1,18 @@
 {
-  "name": "omega",
-  "display_name": "omega — Lifecycle Navigator",
-  "description": "Guida dall'idea al deploy per qualsiasi progetto. Wizard adattivo, autopilot con 6 gate di sicurezza, 25 sub-skill specializzati. Gestisce: web app, SaaS, gestionali, e-commerce, mobile, API, CLI, Python/AI. 4 tier di design. Sempre in italiano.",
-  "version": "4.1.0",
-  "author": {
-    "name": "Mirko Romano",
-    "url": "https://github.com/mromano1398"
+  "name": "mromano1398",
+  "owner": {
+    "name": "Mirko Romano"
   },
-  "repository": "https://github.com/mromano1398/omega-claude-plugin",
-  "license": "MIT",
-  "keywords": [
-    "lifecycle", "wizard", "autopilot", "saas", "gestionale",
-    "nextjs", "typescript", "deployment", "italiano", "fullstack"
-  ],
-  "categories": ["productivity", "development", "scaffolding"],
-  "skills": [
-    "omega", "omega-wizard", "omega-beginner", "omega-autopilot-engine",
-    "omega-tier-system", "omega-blueprints", "omega-reskin",
-    "omega-build-checker", "omega-audit-ui", "omega-context-updater",
-    "omega-doc-generator", "omega-stitch", "omega-stack-advisor",
-    "omega-debug", "omega-devops", "omega-security", "omega-legacy",
-    "omega-testing", "omega-team", "omega-pm", "omega-supabase",
-    "omega-multitenant", "omega-mobile", "omega-ai", "omega-payments",
-    "omega-python", "omega-cli"
-  ],
-  "min_claude_code_version": "1.0.0",
-  "tags": ["italiano", "fullstack", "saas", "gestionale", "autopilot"]
+  "metadata": {
+    "description": "Claude Code plugins by Mirko Romano",
+    "homepage": "https://github.com/mromano1398/omega-claude-plugin"
+  },
+  "plugins": [
+    {
+      "name": "omega",
+      "version": "4.2.1",
+      "source": ".",
+      "description": "Lifecycle navigator universale — dall'idea al deploy per qualsiasi tipo di progetto. 26 sub-skills: business strategy, autopilot end-to-end, web/mobile/AI/pagamenti/Python/CLI. 4 tier di design. Sempre in italiano."
+    }
+  ]
 }
