@@ -3,19 +3,20 @@
 > **Universal lifecycle navigator for Claude Code** — from idea to production, for any project type, for everyone.
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-orange?logo=anthropic)](https://docs.anthropic.com/en/docs/claude-code/overview)
-[![Version](https://img.shields.io/badge/version-4.1.0-blue)](https://github.com/mromano1398/omega-claude-plugin/releases)
+[![Version](https://img.shields.io/badge/version-4.2.1-blue)](https://github.com/mromano1398/omega-claude-plugin/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Skills](https://img.shields.io/badge/sub--skills-25-purple)](skills/)
+[![Skills](https://img.shields.io/badge/sub--skills-26-purple)](skills/)
 [![Language](https://img.shields.io/badge/language-Italiano-red)](README.md)
 [![CI](https://github.com/mromano1398/omega-claude-plugin/actions/workflows/validate.yml/badge.svg)](https://github.com/mromano1398/omega-claude-plugin/actions/workflows/validate.yml)
 
 ---
 
-**omega** è un plugin per [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) che ti guida dall'idea al prodotto finale in produzione — con 4 percorsi adattivi, wizard intelligente, piani checkbox, log persistente, autopilot autonomo e 25 sub-skill specializzati per ogni scenario.
+**omega** è un plugin per [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) che ti guida dall'idea al prodotto finale in produzione — non solo come tool tecnico, ma come co-fondatore digitale. Analizza gli obiettivi di business, studia i competitor, suggerisce feature proattivamente, poi costruisce.
 
 **Funziona per:** sviluppatori esperti, principianti assoluti, team, project manager.  
 **Costruisce:** web app, SaaS, gestionali, e-commerce, app mobile iOS/Android, API, CLI, bot, script Python, progetti AI.  
 **4 tier di design:** da interfacce funzionali a esperienze 3D immersive.  
+**Business strategy inclusa:** competitor research, North Star metric, viral loops, CRO, growth patterns per tipo.  
 **Lingua:** sempre italiano.
 
 ---
@@ -186,17 +187,20 @@ omega è modulare. Il skill principale (`omega`) orchestra automaticamente i sot
 | Skill | Shortcut | Scope |
 |---|---|---|
 | `omega` | — | Orchestratore principale, 4 percorsi, menu, piani |
-| `omega-wizard` | — | Wizard adattivo (Nuovo/Esistente/Riprendi) |
+| `omega-wizard` | — | Wizard adattivo (Nuovo/Esistente/Riprendi/Blueprint) |
+| `omega-product-strategy` | `[PS]` | **Business canvas:** obiettivi, competitor research, feature suggestions, growth patterns, STRATEGY.md |
 | `omega-beginner` | `[BEG]` | Principianti: 3 domande, 6 profili, zero jargon |
-| `omega-autopilot-engine` | `[AP FULL]` | Autopilot con build-check e audit UI integrati |
+| `omega-autopilot-engine` | `[AP FULL]` | Autopilot BASE/FULL/FAST con build-check e audit UI integrati |
+| `omega-stack-advisor` | `[STACK]` | Catalogo completo 19 categorie tecnologie, raccomandazioni per tipo progetto |
 | `omega-tier-system` | `[DS]` | 4 tier di design: Funzionale/Professionale/Cinematic/Immersivo |
-| `omega-blueprints` | — | 7 architetture per tipo progetto |
+| `omega-blueprints` | — | 8 architetture per tipo progetto (gestionale/saas/ecommerce/landing/mobile/cli/showcase/monorepo) |
 | `omega-reskin` | `[RESKIN]` | Cambio design senza toccare la logica |
-| `omega-build-checker` | `[CHECK]` | Autocontrollo build/tsc/test/lint |
+| `omega-build-checker` | `[CHECK]` | Autocontrollo build/tsc/test/lint + baseline mode |
 | `omega-audit-ui` | `[AUDIT-UI]` | Audit anti-AI-slop: font, colori, layout, contenuti |
-| `omega-context-updater` | — | Aggiornamento progressivo CLAUDE.md |
-| `omega-doc-generator` | — | Generazione/rigenerazione documenti omega/ |
-| `omega-stitch` | — | Import design esterno (opzionale) |
+| `omega-context-updater` | — | Aggiornamento progressivo CLAUDE.md + state.md |
+| `omega-doc-generator` | — | Generazione/rigenerazione documenti omega/ con templates |
+| `omega-stitch` | — | Import design esterno: URL/screenshot/Figma/CSS/DESIGN.md |
+| `omega-debug` | — | Diagnostica automatica, 5 recovery scenarios |
 | `omega-devops` | `[10]` | Docker, CI/CD, Nginx, SSL, monitoring |
 | `omega-security` | `[SEC]` | OWASP audit avanzato, GDPR, pre-lancio |
 | `omega-legacy` | `[LEG]` | Strangler Fig, MySQL→PostgreSQL, session bridging |
@@ -210,7 +214,6 @@ omega è modulare. Il skill principale (`omega`) orchestra automaticamente i sot
 | `omega-payments` | `[PAY]` | Stripe checkout, abbonamenti, webhook, Portal |
 | `omega-python` | `[PY]` | FastAPI, SQLAlchemy, Alembic, pytest, Docker |
 | `omega-cli` | `[CLI]` | CLI Node/Python, bot Discord/Telegram, GitHub Actions |
-| `omega-stack-advisor` | `[STACK]` | Catalogo completo 18 categorie tecnologie, raccomandazioni per tipo progetto, verifica compatibilità |
 
 ---
 
@@ -261,13 +264,25 @@ Al primo avvio, omega rileva automaticamente il contesto:
 
 ```
 Utente non tecnico?              → omega-beginner (3 domande, 6 profili)
-Cartella vuota?                  → NUOVO: wizard 5 domande
+Cartella vuota?                  → NUOVO: wizard intelligente
 Progetto esistente, primo omega? → ESISTENTE: analisi codice + lacune
 omega/ già presente?             → RIPRENDI: da dove eri rimasto
 "Cambia design"?                 → RESKIN: chirurgico, solo design
 BLUEPRINT.md presente?           → MODALITÀ C: salta wizard
 [AP FULL]?                       → Autopilot fino al deploy
 ```
+
+### Business canvas (omega-product-strategy)
+
+Incluso automaticamente nel wizard per ogni progetto nuovo. Prima del codice:
+
+1. Domande specifiche per tipo (SaaS → trial/freemium? E-commerce → AOV target? Mobile → paywall timing?)
+2. Analisi competitor (Google / G2 / Reddit — gap di mercato identificati)
+3. Feature suggerite proattivamente (core / crescita / avanzate con motivazione business)
+4. North Star Metric e benchmarks di retention/conversione per tipo
+5. Genera `omega/STRATEGY.md` — alimenta PRD e MVP come fonte di verità business
+
+Invocabile anche su progetti esistenti con `[PS]`.
 
 ### Build check automatico
 
@@ -284,6 +299,7 @@ Per ogni progetto, omega genera e mantiene aggiornati:
 
 ```
 omega/
+├── STRATEGY.md      ← Obiettivi business, competitor, feature scope, North Star, growth plan
 ├── MVP.md           ← Scope, feature obbligatorie, fuori scope, criterio di successo
 ├── PRD.md           ← Requisiti funzionali (RF-001...) e non funzionali
 ├── design-system.md ← Palette, tipografia, componenti, regole assolute
@@ -318,7 +334,7 @@ Ad ogni avvio, omega calcola automaticamente lo stato del progetto:
 ```
 omega/
 ├── .claude-plugin/
-│   └── plugin.json              ← versione 4.1.0
+│   └── plugin.json              ← versione 4.2.1
 ├── skills/
 │   ├── omega/SKILL.md           ← Orchestratore principale
 │   │   └── references/          ← performance, accessibility, seo, api-patterns, security-defaults
@@ -326,7 +342,10 @@ omega/
 │   ├── omega-beginner/SKILL.md
 │   ├── omega-autopilot-engine/SKILL.md
 │   ├── omega-tier-system/SKILL.md + references/tier-1..4.md
-│   ├── omega-blueprints/SKILL.md + references/7 blueprint
+│   ├── omega-blueprints/SKILL.md + references/8 blueprint
+│   ├── omega-product-strategy/SKILL.md + references/ (question-trees, growth-patterns, competitor-research)
+│   ├── omega-stack-advisor/SKILL.md + references/ (catalog, recommendations)
+│   ├── omega-debug/SKILL.md
 │   ├── omega-reskin/SKILL.md
 │   ├── omega-build-checker/SKILL.md
 │   ├── omega-audit-ui/SKILL.md + references/anti-slop-checklist.md
@@ -433,7 +452,7 @@ Apri `commands/fetch-docs.md` e aggiungi una riga alla tabella mappatura. Pull r
 L'autopilot ha 6 gate obbligatori — non tocca mai il deploy di produzione, le migration su dati reali, o operazioni a costo senza chiedere conferma esplicita.
 
 **Quante sub-skill ha omega?**  
-25 sub-skill specializzati, dall'orchestratore principale ai moduli per mobile, AI, pagamenti, devops, sicurezza e molto altro.
+26 sub-skill specializzati, dall'orchestratore principale ai moduli per business strategy, mobile, AI, pagamenti, devops, sicurezza e molto altro.
 
 **Cosa è il reskin?**  
 omega-reskin cambia il design visivo senza toccare la logica. Analizza il codice, separa design da logica, e modifica solo le classi CSS e i componenti UI.
@@ -451,77 +470,31 @@ MIT — vedi [LICENSE](LICENSE).
 
 ## Changelog
 
+Il changelog completo è in [CHANGELOG.md](CHANGELOG.md).
+
+### v4.2.1 — Aprile 2026 (corrente)
+
+**"Business strategy layer + bug fixes"**
+
+- `omega-product-strategy` — business canvas adattivo: domande specifiche per tipo, competitor research, feature suggestions proattive, growth patterns, STRATEGY.md. Shortcut `[PS]`
+- Wizard Step 1.5 obbligatorio: business canvas prima della scelta stack
+- Autopilot FAST MODE documentato: 2 gate bloccanti, domande in batch
+- 10 bug critici corretti (vedere CHANGELOG.md per dettaglio)
+
+### v4.1.0 — Aprile 2026
+
+**"Stack advisor + pattern avanzati tier 3/4"**
+
+- `omega-stack-advisor` — catalogo 19 categorie, raccomandazioni per tipo progetto
+- Pattern Tier 3: scroll-driven animations, text splitting, magnetic cursor
+- Pattern Tier 4: GLSL shaderMaterial, React Spring+R3F, video texture
+- Gate 5 (breaking change API) e Gate 6 (migration distruttiva staging) nell'autopilot
+
 ### v4.0.0 — Aprile 2026
 
 **"Design system vivo, build sempre verde"**
 
-**Nuovi skill (8):**
-- `omega-tier-system` — 4 tier di design (Funzionale/Professionale/Cinematic/Immersivo)
-- `omega-blueprints` — 7 architetture per tipo progetto
-- `omega-reskin` — cambio design chirurgico senza toccare la logica
-- `omega-build-checker` — autocontrollo build/tsc/test dopo ogni modifica
-- `omega-audit-ui` — audit anti-AI-slop: font, colori, layout, contenuti
-- `omega-context-updater` — CLAUDE.md sempre aggiornato con stato reale del progetto
-- `omega-doc-generator` — genera/rigenera tutti i documenti omega/ (con templates)
-- `omega-stitch` — import design esterno opzionale (URL/screenshot/DESIGN.md)
-
-**Ristrutturazione skill (13):**
-- Tutte le skill esistenti ristrutturate con progressive disclosure
-- Contenuto tecnico spostato in `references/` per ridurre l'uso di context window
-- Ogni SKILL.md ora max 100-150 righe, references/ separati per dettagli
-
-**Nuovi flussi:**
+- 8 nuovi skill: `omega-tier-system`, `omega-blueprints`, `omega-reskin`, `omega-build-checker`, `omega-audit-ui`, `omega-context-updater`, `omega-doc-generator`, `omega-stitch`
+- Tutte le skill esistenti ristrutturate con progressive disclosure (`references/`)
 - 4 percorsi adattivi: NUOVO / ESISTENTE / RIPRENDI / RESKIN
-- Wizard ridotto a max 4 domande (era 8)
-- Sicurezza Fase 1 integrata di default (non più opt-in)
-- Build check automatico ogni 3 file + fine piano
-- Audit UI obbligatorio fine Fase 2
-- Context update progressivo dopo ogni piano completato
-
-**omega-beginner:**
-- 6 profili (aggiunto Portfolio/Showcase)
-- Tier semplificato: SEMPLICE/BELLO/WOW/3D
-
-### v3.1.0 — Aprile 2026
-
-**"Design system sempre presente"**
-
-- `CLAUDE.md` generato automaticamente dal wizard come primo documento — letto da Claude Code ad ogni sessione
-- Hook SessionStart: inietta palette + regole assolute da `omega/design-system.md` ad ogni avvio
-- Palette personalizzata per stile (funzionale/moderno/marketing/bilanciato) — no più colori default fissi
-- Propagazione obbligatoria `design-system.md` → `CLAUDE.md` ad ogni `[DS]`
-- Step `[E] FONDAMENTA`: dettaglio componenti UI (shadcn o manuale) + pagina modello `esempio/page.tsx`
-- Autopilot: check CLAUDE.md mancante nella mappa di decisione
-- Fix: rimosso riferimento a `AGENTS.md` mai generato
-- Fix: versione allineata a v3.1.0 in tutti i file
-
-### v3.0.0 — Aprile 2026
-
-**"Per tutti, per qualsiasi cosa"**
-
-- `omega-beginner` — principianti assoluti, 3 domande, 5 profili preconfezionati
-- `omega-autopilot-engine` — autopilot autonomo reale con gate system, session resume, "definizione di COMPLETO" per tipo progetto
-- `omega-mobile` — iOS + Android completo, Expo, EAS Build, guida submission App Store e Play Store (asset, metadati, rejection reasons)
-- `omega-ai` — Vercel AI SDK v6 aggiornato (fixed: `generateObject→Output.object`, `useChat` transport, `stopWhen`), RAG con pgvector, tool calling, guardrails
-- `omega-payments` — Stripe checkout + abbonamenti + webhook idempotente + Customer Portal + IVA italiana
-- `omega-python` — FastAPI, SQLAlchemy 2.0 async, Alembic, pytest con rollback, Docker
-- `omega-cli` — CLI Node.js + Python Typer, bot Discord.js v14, Telegraf v4, GitHub Actions
-- Menu orchestratore con 17 shortcut `[XXX]`
-
-### v2.0.0
-
-- `omega-team` — coordinamento multi-developer, PR workflow, sprint planning
-- `omega-pm` — vista business per PM non tecnici
-- `omega-supabase` — RLS, Auth, Storage, real-time
-- `omega-multitenant` — isolamento dati, tenant detection, provisioning
-- `/omega:fetch-docs` — documentazione ufficiale online per 30+ framework
-- Score system nel SessionStart hook
-
-### v1.0.0
-
-- Prima versione come plugin Claude Code
-- `omega-devops` — Dockerfile corretto (fix `.next/static`), CI/CD, Nginx
-- `omega-security` — file upload fuori da `public/`, audit log con PII masking, IDOR protection
-- `omega-legacy` — Strangler Fig, MySQL→PostgreSQL, session bridging
-- `omega-testing` — integration test con DB reale (transazione rollback), k6 advisory lock
-- Hook SessionStart e PostToolUse
+- Sicurezza Fase 1 integrata di default
